@@ -13,13 +13,15 @@ public class loc {
 		this.x= col;
 		this.y= row;
 	}
-	
+	public loc(loc that) {
+		this.x = that.x;
+		this.y = that.y;
+	}
 	public void print_loc () {
 		System.out.print("(row:"+this.y+",col:"+this.x+"), ");
 	}
-	public void swap () {
-		int temp = this.x;
-		this.x = this.y;
-		this.y = temp;
+	public boolean equals (loc b) {
+		return (this.x == b.x) && (this.y == b.y);
 	}
+	
 }

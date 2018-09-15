@@ -10,6 +10,15 @@ public class piece {
 		this.player=-2;
 		this.location=new loc(-1,-1);
 	}
+	public piece (piece that) {
+		this.piece_type = new String(that.piece_type);
+		this.player = that.player;
+		this.location = new loc(that.location);
+		this.next_step = new ArrayList<loc>();
+		this.next_step.addAll(that.next_step);
+		
+	}
+	
 	public piece (String type,int person, int x, int y) {
 		this.piece_type= new String(type);
 		this.player = person; 

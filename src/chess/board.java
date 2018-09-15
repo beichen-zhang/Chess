@@ -99,10 +99,10 @@ public class board {
 		for (int i=0;i<8;i++) {
 			for (int j=0;j<8;j++) {
 				System.out.print(this.grid_array[i][j].p.piece_type);
-				if (i==0||i==1) {
+				if (this.one.piece_own.contains(this.grid_array[i][j].p)) {
 					System.out.print("0");
 				}
-				if (i==6||i==7) {
+				if (this.two.piece_own.contains(this.grid_array[i][j].p)) {
 					System.out.print("1");
 				}
 				if (j==7) {
@@ -162,37 +162,37 @@ public class board {
 		List<loc> ret_val= new ArrayList<loc>();
 		if (role==1) {
 			if(check(pos_row-1,pos_col,1)==0) {
-				grid available_grid = this.grid_array[pos_col][pos_row-1];
+				grid available_grid = this.grid_array[pos_row-1][pos_col];
 				ret_val.add(available_grid.location);
 			}
 			if(check(pos_row-1,pos_col+1,1)==2) {
-				grid available_grid = this.grid_array[pos_col+1][pos_row-1];
+				grid available_grid = this.grid_array[pos_row-1][pos_col+1];
 				ret_val.add(available_grid.location);
 			}
 			if(check(pos_row-1,pos_col-1,1)==2) {
-				grid available_grid = this.grid_array[pos_col-1][pos_row-1];
+				grid available_grid = this.grid_array[pos_row-1][pos_col-1];
 				ret_val.add(available_grid.location);
 			}
 			if((pos_row==6) && (check(pos_row-2,pos_col,1)==0)) {
-				grid available_grid = this.grid_array[pos_col][pos_row-2];
+				grid available_grid = this.grid_array[pos_row-2][pos_col];
 				ret_val.add(available_grid.location);
 			}
 		}
 		if (role==0) {
 			if(check(pos_row+1,pos_col,0)==0) {
-				grid available_grid = this.grid_array[pos_col][pos_row+1];
+				grid available_grid = this.grid_array[pos_row+1][pos_col];
 				ret_val.add(available_grid.location);
 			}
 			if(check(pos_row+1,pos_col+1,0)==2) {
-				grid available_grid = this.grid_array[pos_col+1][pos_row+1];
+				grid available_grid = this.grid_array[pos_row+1][pos_col+1];
 				ret_val.add(available_grid.location);
 			}
 			if(check(pos_row+1,pos_col-1,0)==2) {
-				grid available_grid = this.grid_array[pos_col-1][pos_row+1];
+				grid available_grid = this.grid_array[pos_row+1][pos_col-1];
 				ret_val.add(available_grid.location);
 			}
 			if((pos_row==1) && (check(pos_row+2,pos_col,0)==0)) {
-				grid available_grid = this.grid_array[pos_col][pos_row+2];
+				grid available_grid = this.grid_array[pos_row+2][pos_col];
 				ret_val.add(available_grid.location);
 			}
 		}
@@ -314,42 +314,42 @@ public class board {
 		
 		if ((check (pos_row+2,pos_col+1,role)==0)|| 
 				(check (pos_row+2,pos_col+1,role)==2)) {
-			grid available_grid = this.grid_array[pos_col+1][pos_row+2];
+			grid available_grid = this.grid_array[pos_row+2][pos_col+1];
 			ret_val.add(available_grid.location);
 		}
 		if ((check (pos_row+1,pos_col+2,role)==0)|| 
 				(check (pos_row+1,pos_col+2,role)==2)) {
-			grid available_grid = this.grid_array[pos_col+2][pos_row+1];
+			grid available_grid = this.grid_array[pos_row+1][pos_col+2];
 			ret_val.add(available_grid.location);
 		}
 		if ((check (pos_row-2,pos_col-1,role)==0)|| 
 				(check (pos_row-2,pos_col-1,role)==2)) {
-			grid available_grid = this.grid_array[pos_col-1][pos_row-2];
+			grid available_grid = this.grid_array[pos_row-2][pos_col-1];
 			ret_val.add(available_grid.location);
 		}
 		if ((check (pos_row-1,pos_col-2,role)==0)|| 
 				(check (pos_row-1,pos_col-2,role)==2)) {
-			grid available_grid = this.grid_array[pos_col-2][pos_row-1];
+			grid available_grid = this.grid_array[pos_row-1][pos_col-2];
 			ret_val.add(available_grid.location);
 		}
 		if ((check (pos_row+1,pos_col-2,role)==0)|| 
 				(check (pos_row+1,pos_col-2,role)==2)) {
-			grid available_grid = this.grid_array[pos_col-2][pos_row+1];
+			grid available_grid = this.grid_array[pos_row+1][pos_col-2];
 			ret_val.add(available_grid.location);
 		}
 		if ((check (pos_row+2,pos_col-1,role)==0)|| 
 				(check (pos_row+2,pos_col-1,role)==2)) {
-			grid available_grid = this.grid_array[pos_col-1][pos_row+2];
+			grid available_grid = this.grid_array[pos_row+2][pos_col-1];
 			ret_val.add(available_grid.location);
 		}
 		if ((check (pos_row-1,pos_col+2,role)==0)|| 
 				(check (pos_row-1,pos_col+2,role)==2)) {
-			grid available_grid = this.grid_array[pos_col+2][pos_row-1];
+			grid available_grid = this.grid_array[pos_row-1][pos_col+2];
 			ret_val.add(available_grid.location);
 		}
 		if ((check (pos_row-2,pos_col+1,role)==0)|| 
 				(check (pos_row-2,pos_col+1,role)==2)) {
-			grid available_grid = this.grid_array[pos_col+1][pos_row-2];
+			grid available_grid = this.grid_array[pos_row-2][pos_col+1];
 			ret_val.add(available_grid.location);
 		}
 		return ret_val;
@@ -431,20 +431,6 @@ public class board {
 		
 	}
 
-	private void next_step_reverse() {
-		for(int i=0;i<this.one.piece_own.size();i++) {
-			
-			piece cur_piece=this.one.piece_own.get(i);
-			Iterator<loc> cur_iter = cur_piece.next_step.iterator();
-			while (cur_iter.hasNext()) {
-				cur_iter.next().swap();
-			}
-			System.out.println(";");
-		}
-	}
-
-
-
 	public void print_next_prob() {
 		for(int i=0;i<this.one.piece_own.size();i++) {
 			piece cur_piece=this.one.piece_own.get(i);
@@ -489,6 +475,25 @@ public class board {
 		return true;
 	}
 	
+	public boolean end_game() {
+		Iterator<piece> cur_iter = this.one.piece_own.iterator();
+		boolean ret_val_one = true;
+		while (cur_iter.hasNext()) {
+			if (cur_iter.next().piece_type.equals("King")) {
+				ret_val_one = false;
+			}
+		}
+		Iterator<piece> cur_iter_2 = this.two.piece_own.iterator();
+		boolean ret_val_two = true;
+		while (cur_iter_2.hasNext()) {
+			if (cur_iter_2.next().piece_type.equals("King")) {
+				ret_val_two = false;
+			}
+		}
+		
+		return (ret_val_one) && (ret_val_two);
+	}
+	
 	public boolean contain(loc a, List<loc> list) {
 		Iterator<loc> cur_iter = list.iterator();
 		while (cur_iter.hasNext()) {
@@ -499,26 +504,30 @@ public class board {
 		}
 		return false;
 	}
+	public void print_player(Players person) {
+		Iterator<piece> cur_iter = person.piece_own.iterator();
+		while (cur_iter.hasNext()) {
+			piece cur_piece = cur_iter.next();
+			System.out.print(cur_piece.piece_type+ " at : ");
+			cur_piece.location.print_loc();
+			System.out.println("");
+		}
+		
+	}
 	public static void main(String [ ] args){
 		board field = new board ();
-		field.print_board();
-		field.print_next_prob();
-//		piece cur_piece=field.one.piece_own.get(8);
-//		Iterator<loc> cur_iter = cur_piece.next_step.iterator();
-//		System.out.print(cur_piece.piece_type+" from player:"+ cur_piece.player);
-//		System.out.print(" have "+cur_piece.next_step.size()+ "options.");
-//		while (cur_iter.hasNext()) {
-//			cur_iter.next().print_loc();
-//		}
-//		System.out.println(";");
-//		field.grid_array[2][0].location.print_loc();
-//		
-//		if(field.move(field.one.piece_own.get(8),field.grid_array[0][2].location)) {
-//			field.print_board();
-//		}
-//		else {
-//			System.out.println("illigal move!");
-//		}
+		board virtual = field;
+		
+		//field.print_next_prob();
+		
+		if(field.move(field.one.piece_own.get(8),field.grid_array[2][0].location)) {
+			System.out.println("move!");
+			field.print_board();
+		}
+		else {
+			System.out.println("illigal move!");
+		}
+		virtual.print_board();
 	}
 }
 
