@@ -1,10 +1,10 @@
 package chess;
 import java.util.*; 
 public class piece {
-	public String piece_type= new String();
-	public int player=-2;
-	public loc location;
-	public List<loc> next_step;
+	public String piece_type= new String();  //type of the piece
+	public int player=-2;					 //piece own by player number. -1 if empty
+	public loc location;					 //location of the piece
+	public List<loc> next_step;				 //nect step option list
 	public piece () {
 		this.piece_type =new String();
 		this.player=-2;
