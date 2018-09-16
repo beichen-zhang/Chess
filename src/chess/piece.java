@@ -15,7 +15,9 @@ public class piece {
 		this.player = that.player;
 		this.location = new loc(that.location);
 		this.next_step = new ArrayList<loc>();
-		this.next_step.addAll(that.next_step);
+		if(that.next_step!=null) {
+			this.next_step.addAll(that.next_step);
+		}
 		
 	}
 	

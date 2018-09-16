@@ -1,4 +1,6 @@
 package chess;
+import static org.junit.Assert.assertEquals;
+
 import java.util.*; 
 public class board {
 	public grid [][] grid_array;
@@ -7,8 +9,6 @@ public class board {
 	public board () {
 		this.one= new Players();
 		this.two= new Players();
-		this.one.piece_own=new ArrayList<piece>();
-		this.two.piece_own=new ArrayList<piece>();
 		this.grid_array= new grid[8][8];
 		for (int i=0;i<8;i++) {
 			for (int j=0;j<8;j++) {
@@ -42,7 +42,17 @@ public class board {
 		this.piece_next_prob ();
 	}
 	
-	
+	public board (board that) {
+		this.grid_array = new grid[8][8];
+		for (int i=0;i<8;i++) {
+			for (int j=0;j<8;j++) {
+				this.grid_array[i][j]=new grid(that.grid_array[i][j]);
+			}
+		}
+		this.one= new Players(that.one);
+		this.two= new Players(that.two);
+		
+	}
 	
 	private void Init_Bottom_Line ( int player, Players pl) {
 		for(int j=0; j<8; j++) {
@@ -95,16 +105,28 @@ public class board {
 	}
 	
 	public void print_board() {
+		boolean flag = false;
 		System.out.println("____");
 		for (int i=0;i<8;i++) {
 			for (int j=0;j<8;j++) {
 				System.out.print(this.grid_array[i][j].p.piece_type);
 				if (this.one.piece_own.contains(this.grid_array[i][j].p)) {
 					System.out.print("0");
+					flag = true;
 				}
 				if (this.two.piece_own.contains(this.grid_array[i][j].p)) {
 					System.out.print("1");
+					flag=true;
 				}
+				if(this.grid_array[i][j].p.piece_type.length()==4) {
+					if(flag) {
+						System.out.print("  ");
+					}
+					else {
+						System.out.print("   ");
+						}
+				}
+				flag = false;
 				if (j==7) {
 					System.out.println("  ");
 				}
@@ -427,13 +449,12 @@ public class board {
 				cur_piece.next_step= piece_next_prob_helper(cur_piece,pos_col,pos_row);
 			}
 		}
-		//next_step_reverse();
 		
 	}
 
-	public void print_next_prob() {
-		for(int i=0;i<this.one.piece_own.size();i++) {
-			piece cur_piece=this.one.piece_own.get(i);
+	public void print_next_prob(Players player) {
+		for(int i=0;i<player.piece_own.size();i++) {
+			piece cur_piece=player.piece_own.get(i);
 			Iterator<loc> cur_iter = cur_piece.next_step.iterator();
 			System.out.print(cur_piece.piece_type+" from player:"+ cur_piece.player);
 			System.out.print(" have "+cur_piece.next_step.size()+ "options.");
@@ -443,7 +464,7 @@ public class board {
 			System.out.println(";");
 		}
 	}
-	
+	//move a piece p to destination. Return whether it is legal move.
 	public boolean move(piece p, loc destination) {
 		if(!contain(destination,p.next_step)) { 
 			return false;
@@ -474,7 +495,44 @@ public class board {
 		this.piece_next_prob();
 		return true;
 	}
-	
+	//check if player is under check-mate threat by opponent. 
+	public boolean checkmate(Players player, Players opponent) {
+		Iterator<piece> cur_iter = player.piece_own.iterator();
+		loc king_loc = new loc();
+		while (cur_iter.hasNext()) {
+			piece cur = cur_iter.next();
+			if (cur.piece_type.equals("King")) {
+				king_loc = new loc(cur.location);
+			}
+		}
+		Iterator<piece> opp_iter = opponent.piece_own.iterator();
+		while (opp_iter.hasNext()) {
+			Iterator<loc> piece_iter = opp_iter.next().next_step.iterator();
+			while (piece_iter.hasNext()) {
+				if(king_loc.equals(piece_iter.next())) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	//Check if any step can avoid checkmate threat from opponent
+	// if true, no step can avoid checkmate, end game.
+	public boolean checkmate_advanced (Players player, Players opponent) {
+		Iterator<piece> cur_iter = player.piece_own.iterator();
+		while (cur_iter.hasNext()) {
+			piece cur = cur_iter.next();
+			Iterator<loc> piece_iter = cur.next_step.iterator();
+			while (piece_iter.hasNext()) {
+				board virtual = new board(this);
+				virtual.move(cur, piece_iter.next());
+				if(!virtual.checkmate(player, opponent)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 	public boolean end_game() {
 		Iterator<piece> cur_iter = this.one.piece_own.iterator();
 		boolean ret_val_one = true;
@@ -515,19 +573,9 @@ public class board {
 		
 	}
 	public static void main(String [ ] args){
-		board field = new board ();
-		board virtual = field;
+		board field = new board();
+		field.print_board();
 		
-		//field.print_next_prob();
-		
-		if(field.move(field.one.piece_own.get(8),field.grid_array[2][0].location)) {
-			System.out.println("move!");
-			field.print_board();
-		}
-		else {
-			System.out.println("illigal move!");
-		}
-		virtual.print_board();
 	}
 }
 
