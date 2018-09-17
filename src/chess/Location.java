@@ -1,26 +1,26 @@
 package chess;
 
-public class loc {
+public class Location {
 	public int x;
 	public int y;
 	
-	public loc () {
+	public Location () {
 		this.x= -1;
 		this.y= -1;
 	}
 	
-	public loc (int row, int col) {
+	public Location (int row, int col) {
 		this.x= col;
 		this.y= row;
 	}
-	public loc(loc that) {
+	public Location(Location that) {
 		this.x = that.x;
 		this.y = that.y;
 	}
 	public void print_loc () {
 		System.out.print("(row:"+this.y+",col:"+this.x+"), ");
 	}
-	public boolean equals (loc b) {
+	public boolean equals (Location b) {
 		return (this.x == b.x) && (this.y == b.y);
 	}
 	

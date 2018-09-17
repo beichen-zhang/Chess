@@ -4,14 +4,14 @@ import java.util.*;
 /*
  * Initialization of the board object
  */
-public class board {
-	public grid [][] grid_array;
-	Players one;
-	Players two;
-	public board () {
-		this.one= new Players();
-		this.two= new Players();
-		this.grid_array= new grid[8][8];
+public class Board {
+	public Grid [][] grid_array;
+	Player one;
+	Player two;
+	public Board () {
+		this.one= new Player();
+		this.two= new Player();
+		this.grid_array= new Grid[8][8];
 		for (int i=0;i<8;i++) {
 			for (int j=0;j<8;j++) {
 				if  (i==0) {
@@ -23,21 +23,21 @@ public class board {
 					j=8;
 				}
 				else if (i==1) {
-					this.grid_array[1][j] = new grid();
-					this.grid_array[1][j].location = new loc(1,j);
-					this.grid_array[1][j].p=new piece("Pawn",0,1,j);
+					this.grid_array[1][j] = new Grid();
+					this.grid_array[1][j].location = new Location(1,j);
+					this.grid_array[1][j].p=new Piece("Pawn",0,1,j);
 					this.one.piece_own.add(this.grid_array[1][j].p);
 				}
 				else if (i==6) {
-					this.grid_array[6][j] = new grid();
-					this.grid_array[6][j].location = new loc(6,j);
-					this.grid_array[6][j].p=new piece("Pawn",1,6,j);
+					this.grid_array[6][j] = new Grid();
+					this.grid_array[6][j].location = new Location(6,j);
+					this.grid_array[6][j].p=new Piece("Pawn",1,6,j);
 					this.two.piece_own.add(this.grid_array[6][j].p);
 				}
 				else {
-					this.grid_array[i][j] = new grid();
-					this.grid_array[i][j].location = new loc(i,j);
-					this.grid_array[i][j].p=new piece("Void",-1,i,j);
+					this.grid_array[i][j] = new Grid();
+					this.grid_array[i][j].location = new Location(i,j);
+					this.grid_array[i][j].p=new Piece("Void",-1,i,j);
 				}
 			}
 		}
@@ -46,34 +46,34 @@ public class board {
 	/*
 	 * copy constructor
 	 */
-	public board (board that) {
-		this.grid_array = new grid[8][8];
+	public Board (Board that) {
+		this.grid_array = new Grid[8][8];
 		for (int i=0;i<8;i++) {
 			for (int j=0;j<8;j++) {
-				this.grid_array[i][j]=new grid(that.grid_array[i][j]);
+				this.grid_array[i][j]=new Grid(that.grid_array[i][j]);
 			}
 		}
-		this.one= new Players(that.one);
-		this.two= new Players(that.two);
+		this.one= new Player(that.one);
+		this.two= new Player(that.two);
 		
 	}
 	
 	/*
 	 *  initialization of the first line
 	 */
-	private void Init_Bottom_Line ( int player, Players pl) {
+	private void Init_Bottom_Line ( int player, Player pl) {
 		String [] piece_name= {"Rook","Knight","Bishop","Queen","King","Bishop","Knight","Rook"};
 		for(int j=0; j<8; j++) {
 			if (player==0) {
-				this.grid_array[0][j]=new grid();
-				this.grid_array[0][j].location=new loc(0,j);
-				this.grid_array[0][j].p=new piece(piece_name[j],0,0,j);
+				this.grid_array[0][j]=new Grid();
+				this.grid_array[0][j].location=new Location(0,j);
+				this.grid_array[0][j].p=new Piece(piece_name[j],0,0,j);
 				pl.piece_own.add(this.grid_array[0][j].p);
 			}
 			if (player==1) {
-				this.grid_array[7][j]=new grid();
-				this.grid_array[7][j].location=new loc(7,j);
-				this.grid_array[7][j].p=new piece(piece_name[j],1,7,j);
+				this.grid_array[7][j]=new Grid();
+				this.grid_array[7][j].location=new Location(7,j);
+				this.grid_array[7][j].p=new Piece(piece_name[j],1,7,j);
 				pl.piece_own.add(this.grid_array[7][j].p);
 			}
 		}
@@ -112,8 +112,8 @@ public class board {
 		}
 	}
 	//helper function of piece_next_prob()
-	private List<loc> piece_next_prob_helper(piece cur_piece, int pos_col, int pos_row){
-		cur_piece.next_step=new ArrayList<loc>();
+	private List<Location> piece_next_prob_helper(Piece cur_piece, int pos_col, int pos_row){
+		cur_piece.next_step=new ArrayList<Location>();
 		if(cur_piece.piece_type.equals("Rook")) {
 			cur_piece.next_step= Rook_helper(pos_col, pos_row,cur_piece);
 		}
@@ -168,44 +168,44 @@ public class board {
 	 * Helper function to add next step location for Pawn piece.
 	 * return a list of location
 	 */
-	private List<loc> Pawn_helper(int pos_col, int pos_row, piece cur_piece) {
+	private List<Location> Pawn_helper(int pos_col, int pos_row, Piece cur_piece) {
 		int role = cur_piece.player;
-		List<loc> ret_val= new ArrayList<loc>();
+		List<Location> ret_val= new ArrayList<Location>();
 		if (role==1) {
 			//situation that piece is owned by player two.
 			if(check(pos_row-1,pos_col,1)==0) {
-				grid available_grid = this.grid_array[pos_row-1][pos_col];
+				Grid available_grid = this.grid_array[pos_row-1][pos_col];
 				ret_val.add(available_grid.location);
 			}
 			if(check(pos_row-1,pos_col+1,1)==2) {
-				grid available_grid = this.grid_array[pos_row-1][pos_col+1];
+				Grid available_grid = this.grid_array[pos_row-1][pos_col+1];
 				ret_val.add(available_grid.location);
 			}
 			if(check(pos_row-1,pos_col-1,1)==2) {
-				grid available_grid = this.grid_array[pos_row-1][pos_col-1];
+				Grid available_grid = this.grid_array[pos_row-1][pos_col-1];
 				ret_val.add(available_grid.location);
 			}
 			if((pos_row==6) && (check(pos_row-2,pos_col,1)==0)) {
-				grid available_grid = this.grid_array[pos_row-2][pos_col];
+				Grid available_grid = this.grid_array[pos_row-2][pos_col];
 				ret_val.add(available_grid.location);
 			}
 		}
 		if (role==0) {
 			//situation that piece is owned by player one.
 			if(check(pos_row+1,pos_col,0)==0) {
-				grid available_grid = this.grid_array[pos_row+1][pos_col];
+				Grid available_grid = this.grid_array[pos_row+1][pos_col];
 				ret_val.add(available_grid.location);
 			}
 			if(check(pos_row+1,pos_col+1,0)==2) {
-				grid available_grid = this.grid_array[pos_row+1][pos_col+1];
+				Grid available_grid = this.grid_array[pos_row+1][pos_col+1];
 				ret_val.add(available_grid.location);
 			}
 			if(check(pos_row+1,pos_col-1,0)==2) {
-				grid available_grid = this.grid_array[pos_row+1][pos_col-1];
+				Grid available_grid = this.grid_array[pos_row+1][pos_col-1];
 				ret_val.add(available_grid.location);
 			}
 			if((pos_row==1) && (check(pos_row+2,pos_col,0)==0)) {
-				grid available_grid = this.grid_array[pos_row+2][pos_col];
+				Grid available_grid = this.grid_array[pos_row+2][pos_col];
 				ret_val.add(available_grid.location);
 			}
 		}
@@ -218,47 +218,47 @@ public class board {
 	 * return a list of location
 	 */
 	
-	private List<loc> King_helper(int pos_col, int pos_row, piece cur_piece) {
+	private List<Location> King_helper(int pos_col, int pos_row, Piece cur_piece) {
 		int role = cur_piece.player;
-		List<loc> ret_val= new ArrayList<loc>();
+		List<Location> ret_val= new ArrayList<Location>();
 		//move down check
 		if(check(pos_row+1,pos_col,role)==0 || check(pos_row+1,pos_col,role)==2) {
-			grid available_grid = this.grid_array[pos_col][pos_row+1];
+			Grid available_grid = this.grid_array[pos_col][pos_row+1];
 			ret_val.add(available_grid.location);
 		}
 		//move up check
 		if(check(pos_row-1,pos_col,role)==0 || check(pos_row-1,pos_col,role)==2) {
-			grid available_grid = this.grid_array[pos_col][pos_row-1];
+			Grid available_grid = this.grid_array[pos_col][pos_row-1];
 			ret_val.add(available_grid.location);
 		}
 		//move down right check
 		if(check(pos_row+1,pos_col+1,role)==0 || check(pos_row+1,pos_col+1,role)==2) {
-			grid available_grid = this.grid_array[pos_col+1][pos_row+1];
+			Grid available_grid = this.grid_array[pos_col+1][pos_row+1];
 			ret_val.add(available_grid.location);
 		}
 		//move down right check
 		if(check(pos_row+1,pos_col-1,role)==0 || check(pos_row+1,pos_col-1,role)==2) {
-			grid available_grid = this.grid_array[pos_col-1][pos_row+1];
+			Grid available_grid = this.grid_array[pos_col-1][pos_row+1];
 			ret_val.add(available_grid.location);
 		}
 		//move up right check
 		if(check(pos_row-1,pos_col+1,role)==0 || check(pos_row-1,pos_col+1,role)==2) {
-			grid available_grid = this.grid_array[pos_col+1][pos_row-1];
+			Grid available_grid = this.grid_array[pos_col+1][pos_row-1];
 			ret_val.add(available_grid.location);
 		}
 		//move up left check
 		if(check(pos_row-1,pos_col-1,role)==0 || check(pos_row-1,pos_col-1,role)==2) {
-			grid available_grid = this.grid_array[pos_col-1][pos_row-1];
+			Grid available_grid = this.grid_array[pos_col-1][pos_row-1];
 			ret_val.add(available_grid.location);
 		}
 		//move right check
 		if(check(pos_row,pos_col+1,role)==0 || check(pos_row,pos_col+1,role)==2) {
-			grid available_grid = this.grid_array[pos_col+1][pos_row];
+			Grid available_grid = this.grid_array[pos_col+1][pos_row];
 			ret_val.add(available_grid.location);
 		}
 		//move left check
 		if(check(pos_row,pos_col-1,role)==0 || check(pos_row,pos_col-1,role)==2) {
-			grid available_grid = this.grid_array[pos_col-1][pos_row];
+			Grid available_grid = this.grid_array[pos_col-1][pos_row];
 			ret_val.add(available_grid.location);
 		}
 		
@@ -272,8 +272,8 @@ public class board {
 	 * return a list of location
 	 */
 
-	private List<loc> Queen_helper(int pos_col, int pos_row, piece cur_piece) {
-		List<loc> ret_val= new ArrayList<loc>();
+	private List<Location> Queen_helper(int pos_col, int pos_row, Piece cur_piece) {
+		List<Location> ret_val= new ArrayList<Location>();
 		ret_val.addAll(Bishop_helper(pos_col,pos_row,cur_piece));
 		ret_val.addAll(Rook_helper(pos_col,pos_row,cur_piece));
 		return ret_val;
@@ -284,14 +284,14 @@ public class board {
 	 * Helper function to add next step location for Bishop piece.
 	 * return a list of location
 	 */
-	private List<loc> Bishop_helper(int pos_col, int pos_row, piece cur_piece) {
+	private List<Location> Bishop_helper(int pos_col, int pos_row, Piece cur_piece) {
 		int role = cur_piece.player;
-		List<loc> ret_val= new ArrayList<loc>();
+		List<Location> ret_val= new ArrayList<Location>();
 		int next_step_col= pos_col+1;
 		int next_step_row= pos_row+1;
 		//down-right
 		while (check(next_step_row,next_step_col,role)==0) {
-			grid available_grid = this.grid_array[next_step_row][next_step_col];
+			Grid available_grid = this.grid_array[next_step_row][next_step_col];
 			ret_val.add(available_grid.location);
 			next_step_col+=1;
 			next_step_row+=1;
@@ -301,7 +301,7 @@ public class board {
 		next_step_col= pos_col-1;
 		next_step_row= pos_row-1;
 		while (check(next_step_row,next_step_col,role)==0) {
-			grid available_grid = this.grid_array[next_step_row][next_step_col];
+			Grid available_grid = this.grid_array[next_step_row][next_step_col];
 			ret_val.add(available_grid.location);
 			next_step_col-=1;
 			next_step_row-=1;
@@ -312,7 +312,7 @@ public class board {
 		next_step_col= pos_col+1;
 		next_step_row= pos_row-1;
 		while (check(next_step_row,next_step_col,role)==0) {
-			grid available_grid = this.grid_array[next_step_row][next_step_col];
+			Grid available_grid = this.grid_array[next_step_row][next_step_col];
 			ret_val.add(available_grid.location);
 			next_step_col+=1;
 			next_step_row-=1;
@@ -323,7 +323,7 @@ public class board {
 		next_step_col= pos_col-1;
 		next_step_row= pos_row+1;
 		while (check(next_step_row,next_step_col,role)==0) {
-			grid available_grid = this.grid_array[next_step_row][next_step_col];
+			Grid available_grid = this.grid_array[next_step_row][next_step_col];
 			ret_val.add(available_grid.location);
 			next_step_col-=1;
 			next_step_row+=1;
@@ -338,53 +338,53 @@ public class board {
 	 * return a list of location
 	 */
 
-	private List<loc> Knight_helper(int pos_col, int pos_row, piece cur_piece) {
+	private List<Location> Knight_helper(int pos_col, int pos_row, Piece cur_piece) {
 		int role = cur_piece.player;
-		List<loc> ret_val= new ArrayList<loc>();
+		List<Location> ret_val= new ArrayList<Location>();
 		
 		//down right move
 		if ((check (pos_row+2,pos_col+1,role)==0)|| 
 				(check (pos_row+2,pos_col+1,role)==2)) {
-			grid available_grid = this.grid_array[pos_row+2][pos_col+1];
+			Grid available_grid = this.grid_array[pos_row+2][pos_col+1];
 			ret_val.add(available_grid.location);
 		}
 		if ((check (pos_row+1,pos_col+2,role)==0)|| 
 				(check (pos_row+1,pos_col+2,role)==2)) {
-			grid available_grid = this.grid_array[pos_row+1][pos_col+2];
+			Grid available_grid = this.grid_array[pos_row+1][pos_col+2];
 			ret_val.add(available_grid.location);
 		}
 		
 		//up left move
 		if ((check (pos_row-2,pos_col-1,role)==0)|| 
 				(check (pos_row-2,pos_col-1,role)==2)) {
-			grid available_grid = this.grid_array[pos_row-2][pos_col-1];
+			Grid available_grid = this.grid_array[pos_row-2][pos_col-1];
 			ret_val.add(available_grid.location);
 		}
 		if ((check (pos_row-1,pos_col-2,role)==0)|| 
 				(check (pos_row-1,pos_col-2,role)==2)) {
-			grid available_grid = this.grid_array[pos_row-1][pos_col-2];
+			Grid available_grid = this.grid_array[pos_row-1][pos_col-2];
 			ret_val.add(available_grid.location);
 		}
 		//down left move
 		if ((check (pos_row+1,pos_col-2,role)==0)|| 
 				(check (pos_row+1,pos_col-2,role)==2)) {
-			grid available_grid = this.grid_array[pos_row+1][pos_col-2];
+			Grid available_grid = this.grid_array[pos_row+1][pos_col-2];
 			ret_val.add(available_grid.location);
 		}
 		if ((check (pos_row+2,pos_col-1,role)==0)|| 
 				(check (pos_row+2,pos_col-1,role)==2)) {
-			grid available_grid = this.grid_array[pos_row+2][pos_col-1];
+			Grid available_grid = this.grid_array[pos_row+2][pos_col-1];
 			ret_val.add(available_grid.location);
 		}
 		//up right move
 		if ((check (pos_row-1,pos_col+2,role)==0)|| 
 				(check (pos_row-1,pos_col+2,role)==2)) {
-			grid available_grid = this.grid_array[pos_row-1][pos_col+2];
+			Grid available_grid = this.grid_array[pos_row-1][pos_col+2];
 			ret_val.add(available_grid.location);
 		}
 		if ((check (pos_row-2,pos_col+1,role)==0)|| 
 				(check (pos_row-2,pos_col+1,role)==2)) {
-			grid available_grid = this.grid_array[pos_row-2][pos_col+1];
+			Grid available_grid = this.grid_array[pos_row-2][pos_col+1];
 			ret_val.add(available_grid.location);
 		}
 		return ret_val;
@@ -395,14 +395,14 @@ public class board {
 	 * return a list of location
 	 */
 
-	private List<loc> Rook_helper(int pos_col, int pos_row, piece cur_piece) {
+	private List<Location> Rook_helper(int pos_col, int pos_row, Piece cur_piece) {
 		int role = cur_piece.player;
-		List<loc> ret_val= new ArrayList<loc>();
+		List<Location> ret_val= new ArrayList<Location>();
 		//move right check
 		int next_step_col= pos_col+1;
 		int next_step_row= pos_row;
 		while (check(next_step_row,next_step_col,role)==0) {
-			grid available_grid = this.grid_array[next_step_row][next_step_col];
+			Grid available_grid = this.grid_array[next_step_row][next_step_col];
 			ret_val.add(available_grid.location);
 			next_step_col+=1;
 		}
@@ -411,7 +411,7 @@ public class board {
 		next_step_col= pos_col-1;
 		next_step_row= pos_row;
 		while (check(next_step_row,next_step_col,role)==0) {
-			grid available_grid = this.grid_array[next_step_row][next_step_col];
+			Grid available_grid = this.grid_array[next_step_row][next_step_col];
 			ret_val.add(available_grid.location);
 			next_step_col-=1;
 		}
@@ -420,7 +420,7 @@ public class board {
 		next_step_col= pos_col;
 		next_step_row= pos_row+1;
 		while (check(next_step_row,next_step_col,role)==0) {
-			grid available_grid = this.grid_array[next_step_row][next_step_col];
+			Grid available_grid = this.grid_array[next_step_row][next_step_col];
 			ret_val.add(available_grid.location);
 			next_step_row+=1;
 		}
@@ -429,7 +429,7 @@ public class board {
 		next_step_col= pos_col;
 		next_step_row= pos_row-1;
 		while (check(next_step_row,next_step_col,role)==0) {
-			grid available_grid = this.grid_array[next_step_row][next_step_col];
+			Grid available_grid = this.grid_array[next_step_row][next_step_col];
 			ret_val.add(available_grid.location);
 			next_step_row-=1;
 		}
@@ -442,9 +442,9 @@ public class board {
 	 * Helper function to add location into piece.next_step
 	 */
 
-	private void add_loc(int role, List<loc> ret_val, int next_step_col, int next_step_row) {
+	private void add_loc(int role, List<Location> ret_val, int next_step_col, int next_step_row) {
 		if (check(next_step_row,next_step_col,role)==2) {
-			grid available_grid = this.grid_array[next_step_row][next_step_col];
+			Grid available_grid = this.grid_array[next_step_row][next_step_col];
 			ret_val.add(available_grid.location);
 		}
 	}
@@ -455,7 +455,7 @@ public class board {
 	 */
 	public void piece_next_prob () {
 		for(int i=0;i<this.one.piece_own.size();i++) {
-			piece cur_piece=this.one.piece_own.get(i);
+			Piece cur_piece=this.one.piece_own.get(i);
 			if(cur_piece.piece_type !="Void") {
 				int pos_col = cur_piece.location.x;
 				int pos_row = cur_piece.location.y;
@@ -463,7 +463,7 @@ public class board {
 			}
 		}
 		for(int i=0;i<this.two.piece_own.size();i++) {
-			piece cur_piece=this.two.piece_own.get(i);
+			Piece cur_piece=this.two.piece_own.get(i);
 			if(cur_piece.piece_type !="Void") {
 				int pos_col = cur_piece.location.x;
 				int pos_row = cur_piece.location.y;
@@ -475,10 +475,10 @@ public class board {
 	/*
 	 * Print function for piece_next_prob()
 	 */
-	public void print_next_prob(Players player) {
+	public void print_next_prob(Player player) {
 		for(int i=0;i<player.piece_own.size();i++) {
-			piece cur_piece=player.piece_own.get(i);
-			Iterator<loc> cur_iter = cur_piece.next_step.iterator();
+			Piece cur_piece=player.piece_own.get(i);
+			Iterator<Location> cur_iter = cur_piece.next_step.iterator();
 			System.out.print(cur_piece.piece_type+" from player:"+ cur_piece.player);
 			System.out.print(" have "+cur_piece.next_step.size()+ "options.");
 			while (cur_iter.hasNext()) {
@@ -490,25 +490,25 @@ public class board {
 	/*
 	 * move a piece p to destination. Return whether it is legal move.
 	 */
-	public boolean move(piece p, loc destination) {
+	public boolean move(Piece p, Location destination) {
 		if(!contain(destination,p.next_step)) { 
 			//if destination is not in piece's next step options
 			return false;
 		}
-		grid des = this.grid_array[destination.y][destination.x];
-		grid cur_grid= this.grid_array[p.location.y][p.location.x];
+		Grid des = this.grid_array[destination.y][destination.x];
+		Grid cur_grid= this.grid_array[p.location.y][p.location.x];
 		if(check(destination.y,destination.x,p.player)==0) {
 			//if destination is an empty grid
-			piece temp = cur_grid.p;
-			cur_grid.p = new piece("Void",-1,p.location.y,p.location.x);
+			Piece temp = cur_grid.p;
+			cur_grid.p = new Piece("Void",-1,p.location.y,p.location.x);
 			des.p = temp;
 			des.p.location = destination;
 		}
 		else {
 			//if destination is owned by opponent
-			piece opponent = des.p;
-			piece temp = cur_grid.p;
-			cur_grid.p = new piece("Void",-1,p.location.y,p.location.x);
+			Piece opponent = des.p;
+			Piece temp = cur_grid.p;
+			cur_grid.p = new Piece("Void",-1,p.location.y,p.location.x);
 			des.p = temp;
 			des.p.location = destination;
 			//kill opponent's piece
@@ -526,20 +526,20 @@ public class board {
 	/* check if player is under check-mate threat by opponent. 
 	 * Return true if player is under check-mate threat
 	 */
-	public boolean checkmate(Players player, Players opponent) {
-		Iterator<piece> cur_iter = player.piece_own.iterator();
-		loc king_loc = new loc();
+	public boolean checkmate(Player player, Player opponent) {
+		Iterator<Piece> cur_iter = player.piece_own.iterator();
+		Location king_loc = new Location();
 		//find the location of the king.
 		while (cur_iter.hasNext()) {
-			piece cur = cur_iter.next();
+			Piece cur = cur_iter.next();
 			if (cur.piece_type.equals("King")) {
-				king_loc = new loc(cur.location);
+				king_loc = new Location(cur.location);
 			}
 		}
-		Iterator<piece> opp_iter = opponent.piece_own.iterator();
+		Iterator<Piece> opp_iter = opponent.piece_own.iterator();
 		//find if any opponent's piece can kill player's king on next step
 		while (opp_iter.hasNext()) {
-			Iterator<loc> piece_iter = opp_iter.next().next_step.iterator();
+			Iterator<Location> piece_iter = opp_iter.next().next_step.iterator();
 			while (piece_iter.hasNext()) {
 				if(king_loc.equals(piece_iter.next())) {
 					return true;
@@ -552,15 +552,15 @@ public class board {
 	 *	if true, no step can avoid checkmate, end game.
 	 *  Iterate every move, check if any of them can avoid checkmate.
 	 */
-	public boolean checkmate_advanced (Players player, Players opponent) {
-		Iterator<piece> cur_iter = player.piece_own.iterator();
+	public boolean checkmate_advanced (Player player, Player opponent) {
+		Iterator<Piece> cur_iter = player.piece_own.iterator();
 		//iteration every piece of players
 		while (cur_iter.hasNext()) {
-			piece cur = cur_iter.next();
-			Iterator<loc> piece_iter = cur.next_step.iterator();
+			Piece cur = cur_iter.next();
+			Iterator<Location> piece_iter = cur.next_step.iterator();
 			//Iteration every move
 			while (piece_iter.hasNext()) {
-				board virtual = new board(this);
+				Board virtual = new Board(this);
 				virtual.move(cur, piece_iter.next());
 				//check if this move can avoid checkmate.
 				if(!virtual.checkmate(player, opponent)) {
@@ -572,14 +572,14 @@ public class board {
 	}
 	//check if both kings are alive. if not, end game.
 	public boolean end_game() {
-		Iterator<piece> cur_iter = this.one.piece_own.iterator();
+		Iterator<Piece> cur_iter = this.one.piece_own.iterator();
 		boolean one_king_alive = false;
 		while (cur_iter.hasNext()) {
 			if (cur_iter.next().piece_type.equals("King")) {
 				one_king_alive = true;
 			}
 		}
-		Iterator<piece> cur_iter_2 = this.two.piece_own.iterator();
+		Iterator<Piece> cur_iter_2 = this.two.piece_own.iterator();
 		boolean two_king_alive = false;
 		while (cur_iter_2.hasNext()) {
 			if (cur_iter_2.next().piece_type.equals("King")) {
@@ -589,10 +589,10 @@ public class board {
 		return !(one_king_alive&&two_king_alive);
 	}
 	//check if location is in List<loc>
-	private boolean contain(loc location, List<loc> list) {
-		Iterator<loc> cur_iter = list.iterator();
+	private boolean contain(Location location, List<Location> list) {
+		Iterator<Location> cur_iter = list.iterator();
 		while (cur_iter.hasNext()) {
-			loc this_loc = cur_iter.next();
+			Location this_loc = cur_iter.next();
 			if((this_loc.x ==location.x )&&(this_loc.y ==location.y)) {
 				return true;
 			}
@@ -600,10 +600,10 @@ public class board {
 		return false;
 	}
 	//print function of player's pieces and their location.
-	public void print_player(Players person) {
-		Iterator<piece> cur_iter = person.piece_own.iterator();
+	public void print_player(Player person) {
+		Iterator<Piece> cur_iter = person.piece_own.iterator();
 		while (cur_iter.hasNext()) {
-			piece cur_piece = cur_iter.next();
+			Piece cur_piece = cur_iter.next();
 			System.out.print(cur_piece.piece_type+ " at : ");
 			cur_piece.location.print_loc();
 			System.out.println("");
@@ -611,19 +611,19 @@ public class board {
 		
 	}
 	public static void main(String [ ] args){
-		board field = new board();
+		Board field = new Board();
 		field.move(field.one.piece_own.get(10),field.grid_array[2][2].location);
 		field.print_board();
 		field.print_next_prob(field.one);
 		
-		board field_2 = new board();
+		Board field_2 = new Board();
 		int count =0;
 		for (int i =0; i<16; i++) {
 			if (count == 4) {
 				continue;
 			}
 			count++;
-			piece betray_i = field_2.one.piece_own.get(0);
+			Piece betray_i = field_2.one.piece_own.get(0);
 			field_2.one.piece_own.remove(betray_i);
 			betray_i.player=1;
 			field_2.two.piece_own.add(betray_i);

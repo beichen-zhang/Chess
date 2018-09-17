@@ -1,16 +1,16 @@
 package chess;
 
-public class grid {
-	public piece p= new piece();
-	loc location = new loc();
-	public grid (){
-		this.p=new piece();
-		this.location = new loc();
+public class Grid {
+	public Piece p= new Piece();
+	Location location = new Location();
+	public Grid (){
+		this.p=new Piece();
+		this.location = new Location();
 	} 
 	//copy constructor
-	public grid (grid that) {
-		this.p = new piece(that.p);
-		this.location = new loc(that.location);
+	public Grid (Grid that) {
+		this.p = new Piece(that.p);
+		this.location = new Location(that.location);
 	}
 	
 	//return the piece type inside this grid
