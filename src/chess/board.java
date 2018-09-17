@@ -589,7 +589,7 @@ public class board {
 		return !(one_king_alive&&two_king_alive);
 	}
 	//check if location is in List<loc>
-	public boolean contain(loc location, List<loc> list) {
+	private boolean contain(loc location, List<loc> list) {
 		Iterator<loc> cur_iter = list.iterator();
 		while (cur_iter.hasNext()) {
 			loc this_loc = cur_iter.next();
@@ -615,6 +615,22 @@ public class board {
 		field.move(field.one.piece_own.get(10),field.grid_array[2][2].location);
 		field.print_board();
 		field.print_next_prob(field.one);
+		
+		board field_2 = new board();
+		int count =0;
+		for (int i =0; i<16; i++) {
+			if (count == 4) {
+				continue;
+			}
+			count++;
+			piece betray_i = field_2.one.piece_own.get(0);
+			field_2.one.piece_own.remove(betray_i);
+			betray_i.player=1;
+			field_2.two.piece_own.add(betray_i);
+			
+		}
+		field_2.piece_next_prob();
+		boolean valid_check = field_2.checkmate_advanced(field_2.one, field_2.two);
 	}
 }
 
