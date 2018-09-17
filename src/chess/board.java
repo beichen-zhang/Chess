@@ -143,7 +143,7 @@ public class Board {
 	 *			-1 is out of bound. 
 	 */
 	
-	private int check(int row, int col, int role) {
+	private int check_grid(int row, int col, int role) {
 		
 		if(row<0 ||row>7 || col<0 || col>7) {
 			//out of bound situation captured.
@@ -173,38 +173,38 @@ public class Board {
 		List<Location> ret_val= new ArrayList<Location>();
 		if (role==1) {
 			//situation that piece is owned by player two.
-			if(check(pos_row-1,pos_col,1)==0) {
+			if(check_grid(pos_row-1,pos_col,1)==0) {
 				Grid available_grid = this.grid_array[pos_row-1][pos_col];
 				ret_val.add(available_grid.location);
 			}
-			if(check(pos_row-1,pos_col+1,1)==2) {
+			if(check_grid(pos_row-1,pos_col+1,1)==2) {
 				Grid available_grid = this.grid_array[pos_row-1][pos_col+1];
 				ret_val.add(available_grid.location);
 			}
-			if(check(pos_row-1,pos_col-1,1)==2) {
+			if(check_grid(pos_row-1,pos_col-1,1)==2) {
 				Grid available_grid = this.grid_array[pos_row-1][pos_col-1];
 				ret_val.add(available_grid.location);
 			}
-			if((pos_row==6) && (check(pos_row-2,pos_col,1)==0)) {
+			if((pos_row==6) && (check_grid(pos_row-2,pos_col,1)==0)) {
 				Grid available_grid = this.grid_array[pos_row-2][pos_col];
 				ret_val.add(available_grid.location);
 			}
 		}
 		if (role==0) {
 			//situation that piece is owned by player one.
-			if(check(pos_row+1,pos_col,0)==0) {
+			if(check_grid(pos_row+1,pos_col,0)==0) {
 				Grid available_grid = this.grid_array[pos_row+1][pos_col];
 				ret_val.add(available_grid.location);
 			}
-			if(check(pos_row+1,pos_col+1,0)==2) {
+			if(check_grid(pos_row+1,pos_col+1,0)==2) {
 				Grid available_grid = this.grid_array[pos_row+1][pos_col+1];
 				ret_val.add(available_grid.location);
 			}
-			if(check(pos_row+1,pos_col-1,0)==2) {
+			if(check_grid(pos_row+1,pos_col-1,0)==2) {
 				Grid available_grid = this.grid_array[pos_row+1][pos_col-1];
 				ret_val.add(available_grid.location);
 			}
-			if((pos_row==1) && (check(pos_row+2,pos_col,0)==0)) {
+			if((pos_row==1) && (check_grid(pos_row+2,pos_col,0)==0)) {
 				Grid available_grid = this.grid_array[pos_row+2][pos_col];
 				ret_val.add(available_grid.location);
 			}
@@ -222,42 +222,42 @@ public class Board {
 		int role = cur_piece.player;
 		List<Location> ret_val= new ArrayList<Location>();
 		//move down check
-		if(check(pos_row+1,pos_col,role)==0 || check(pos_row+1,pos_col,role)==2) {
+		if(check_grid(pos_row+1,pos_col,role)==0 || check_grid(pos_row+1,pos_col,role)==2) {
 			Grid available_grid = this.grid_array[pos_col][pos_row+1];
 			ret_val.add(available_grid.location);
 		}
 		//move up check
-		if(check(pos_row-1,pos_col,role)==0 || check(pos_row-1,pos_col,role)==2) {
+		if(check_grid(pos_row-1,pos_col,role)==0 || check_grid(pos_row-1,pos_col,role)==2) {
 			Grid available_grid = this.grid_array[pos_col][pos_row-1];
 			ret_val.add(available_grid.location);
 		}
 		//move down right check
-		if(check(pos_row+1,pos_col+1,role)==0 || check(pos_row+1,pos_col+1,role)==2) {
+		if(check_grid(pos_row+1,pos_col+1,role)==0 || check_grid(pos_row+1,pos_col+1,role)==2) {
 			Grid available_grid = this.grid_array[pos_col+1][pos_row+1];
 			ret_val.add(available_grid.location);
 		}
 		//move down right check
-		if(check(pos_row+1,pos_col-1,role)==0 || check(pos_row+1,pos_col-1,role)==2) {
+		if(check_grid(pos_row+1,pos_col-1,role)==0 || check_grid(pos_row+1,pos_col-1,role)==2) {
 			Grid available_grid = this.grid_array[pos_col-1][pos_row+1];
 			ret_val.add(available_grid.location);
 		}
 		//move up right check
-		if(check(pos_row-1,pos_col+1,role)==0 || check(pos_row-1,pos_col+1,role)==2) {
+		if(check_grid(pos_row-1,pos_col+1,role)==0 || check_grid(pos_row-1,pos_col+1,role)==2) {
 			Grid available_grid = this.grid_array[pos_col+1][pos_row-1];
 			ret_val.add(available_grid.location);
 		}
 		//move up left check
-		if(check(pos_row-1,pos_col-1,role)==0 || check(pos_row-1,pos_col-1,role)==2) {
+		if(check_grid(pos_row-1,pos_col-1,role)==0 || check_grid(pos_row-1,pos_col-1,role)==2) {
 			Grid available_grid = this.grid_array[pos_col-1][pos_row-1];
 			ret_val.add(available_grid.location);
 		}
 		//move right check
-		if(check(pos_row,pos_col+1,role)==0 || check(pos_row,pos_col+1,role)==2) {
+		if(check_grid(pos_row,pos_col+1,role)==0 || check_grid(pos_row,pos_col+1,role)==2) {
 			Grid available_grid = this.grid_array[pos_col+1][pos_row];
 			ret_val.add(available_grid.location);
 		}
 		//move left check
-		if(check(pos_row,pos_col-1,role)==0 || check(pos_row,pos_col-1,role)==2) {
+		if(check_grid(pos_row,pos_col-1,role)==0 || check_grid(pos_row,pos_col-1,role)==2) {
 			Grid available_grid = this.grid_array[pos_col-1][pos_row];
 			ret_val.add(available_grid.location);
 		}
@@ -290,7 +290,7 @@ public class Board {
 		int next_step_col= pos_col+1;
 		int next_step_row= pos_row+1;
 		//down-right
-		while (check(next_step_row,next_step_col,role)==0) {
+		while (check_grid(next_step_row,next_step_col,role)==0) {
 			Grid available_grid = this.grid_array[next_step_row][next_step_col];
 			ret_val.add(available_grid.location);
 			next_step_col+=1;
@@ -300,7 +300,7 @@ public class Board {
 		//up-left
 		next_step_col= pos_col-1;
 		next_step_row= pos_row-1;
-		while (check(next_step_row,next_step_col,role)==0) {
+		while (check_grid(next_step_row,next_step_col,role)==0) {
 			Grid available_grid = this.grid_array[next_step_row][next_step_col];
 			ret_val.add(available_grid.location);
 			next_step_col-=1;
@@ -311,7 +311,7 @@ public class Board {
 		//up-right
 		next_step_col= pos_col+1;
 		next_step_row= pos_row-1;
-		while (check(next_step_row,next_step_col,role)==0) {
+		while (check_grid(next_step_row,next_step_col,role)==0) {
 			Grid available_grid = this.grid_array[next_step_row][next_step_col];
 			ret_val.add(available_grid.location);
 			next_step_col+=1;
@@ -322,7 +322,7 @@ public class Board {
 		//down-left
 		next_step_col= pos_col-1;
 		next_step_row= pos_row+1;
-		while (check(next_step_row,next_step_col,role)==0) {
+		while (check_grid(next_step_row,next_step_col,role)==0) {
 			Grid available_grid = this.grid_array[next_step_row][next_step_col];
 			ret_val.add(available_grid.location);
 			next_step_col-=1;
@@ -343,47 +343,47 @@ public class Board {
 		List<Location> ret_val= new ArrayList<Location>();
 		
 		//down right move
-		if ((check (pos_row+2,pos_col+1,role)==0)|| 
-				(check (pos_row+2,pos_col+1,role)==2)) {
+		if ((check_grid (pos_row+2,pos_col+1,role)==0)|| 
+				(check_grid (pos_row+2,pos_col+1,role)==2)) {
 			Grid available_grid = this.grid_array[pos_row+2][pos_col+1];
 			ret_val.add(available_grid.location);
 		}
-		if ((check (pos_row+1,pos_col+2,role)==0)|| 
-				(check (pos_row+1,pos_col+2,role)==2)) {
+		if ((check_grid (pos_row+1,pos_col+2,role)==0)|| 
+				(check_grid (pos_row+1,pos_col+2,role)==2)) {
 			Grid available_grid = this.grid_array[pos_row+1][pos_col+2];
 			ret_val.add(available_grid.location);
 		}
 		
 		//up left move
-		if ((check (pos_row-2,pos_col-1,role)==0)|| 
-				(check (pos_row-2,pos_col-1,role)==2)) {
+		if ((check_grid (pos_row-2,pos_col-1,role)==0)|| 
+				(check_grid (pos_row-2,pos_col-1,role)==2)) {
 			Grid available_grid = this.grid_array[pos_row-2][pos_col-1];
 			ret_val.add(available_grid.location);
 		}
-		if ((check (pos_row-1,pos_col-2,role)==0)|| 
-				(check (pos_row-1,pos_col-2,role)==2)) {
+		if ((check_grid (pos_row-1,pos_col-2,role)==0)|| 
+				(check_grid (pos_row-1,pos_col-2,role)==2)) {
 			Grid available_grid = this.grid_array[pos_row-1][pos_col-2];
 			ret_val.add(available_grid.location);
 		}
 		//down left move
-		if ((check (pos_row+1,pos_col-2,role)==0)|| 
-				(check (pos_row+1,pos_col-2,role)==2)) {
+		if ((check_grid (pos_row+1,pos_col-2,role)==0)|| 
+				(check_grid (pos_row+1,pos_col-2,role)==2)) {
 			Grid available_grid = this.grid_array[pos_row+1][pos_col-2];
 			ret_val.add(available_grid.location);
 		}
-		if ((check (pos_row+2,pos_col-1,role)==0)|| 
-				(check (pos_row+2,pos_col-1,role)==2)) {
+		if ((check_grid (pos_row+2,pos_col-1,role)==0)|| 
+				(check_grid (pos_row+2,pos_col-1,role)==2)) {
 			Grid available_grid = this.grid_array[pos_row+2][pos_col-1];
 			ret_val.add(available_grid.location);
 		}
 		//up right move
-		if ((check (pos_row-1,pos_col+2,role)==0)|| 
-				(check (pos_row-1,pos_col+2,role)==2)) {
+		if ((check_grid (pos_row-1,pos_col+2,role)==0)|| 
+				(check_grid (pos_row-1,pos_col+2,role)==2)) {
 			Grid available_grid = this.grid_array[pos_row-1][pos_col+2];
 			ret_val.add(available_grid.location);
 		}
-		if ((check (pos_row-2,pos_col+1,role)==0)|| 
-				(check (pos_row-2,pos_col+1,role)==2)) {
+		if ((check_grid (pos_row-2,pos_col+1,role)==0)|| 
+				(check_grid (pos_row-2,pos_col+1,role)==2)) {
 			Grid available_grid = this.grid_array[pos_row-2][pos_col+1];
 			ret_val.add(available_grid.location);
 		}
@@ -401,7 +401,7 @@ public class Board {
 		//move right check
 		int next_step_col= pos_col+1;
 		int next_step_row= pos_row;
-		while (check(next_step_row,next_step_col,role)==0) {
+		while (check_grid(next_step_row,next_step_col,role)==0) {
 			Grid available_grid = this.grid_array[next_step_row][next_step_col];
 			ret_val.add(available_grid.location);
 			next_step_col+=1;
@@ -410,7 +410,7 @@ public class Board {
 		//move left check
 		next_step_col= pos_col-1;
 		next_step_row= pos_row;
-		while (check(next_step_row,next_step_col,role)==0) {
+		while (check_grid(next_step_row,next_step_col,role)==0) {
 			Grid available_grid = this.grid_array[next_step_row][next_step_col];
 			ret_val.add(available_grid.location);
 			next_step_col-=1;
@@ -419,7 +419,7 @@ public class Board {
 		//move down check
 		next_step_col= pos_col;
 		next_step_row= pos_row+1;
-		while (check(next_step_row,next_step_col,role)==0) {
+		while (check_grid(next_step_row,next_step_col,role)==0) {
 			Grid available_grid = this.grid_array[next_step_row][next_step_col];
 			ret_val.add(available_grid.location);
 			next_step_row+=1;
@@ -428,7 +428,7 @@ public class Board {
 		//move up check
 		next_step_col= pos_col;
 		next_step_row= pos_row-1;
-		while (check(next_step_row,next_step_col,role)==0) {
+		while (check_grid(next_step_row,next_step_col,role)==0) {
 			Grid available_grid = this.grid_array[next_step_row][next_step_col];
 			ret_val.add(available_grid.location);
 			next_step_row-=1;
@@ -443,7 +443,7 @@ public class Board {
 	 */
 
 	private void add_loc(int role, List<Location> ret_val, int next_step_col, int next_step_row) {
-		if (check(next_step_row,next_step_col,role)==2) {
+		if (check_grid(next_step_row,next_step_col,role)==2) {
 			Grid available_grid = this.grid_array[next_step_row][next_step_col];
 			ret_val.add(available_grid.location);
 		}
@@ -497,7 +497,7 @@ public class Board {
 		}
 		Grid des = this.grid_array[destination.y][destination.x];
 		Grid cur_grid= this.grid_array[p.location.y][p.location.x];
-		if(check(destination.y,destination.x,p.player)==0) {
+		if(check_grid(destination.y,destination.x,p.player)==0) {
 			//if destination is an empty grid
 			Piece temp = cur_grid.p;
 			cur_grid.p = new Piece("Void",-1,p.location.y,p.location.x);
@@ -521,6 +521,7 @@ public class Board {
 			
 		}
 		this.piece_next_prob();
+		
 		return true;
 	}
 	/* check if player is under check-mate threat by opponent. 
@@ -552,7 +553,7 @@ public class Board {
 	 *	if true, no step can avoid checkmate, end game.
 	 *  Iterate every move, check if any of them can avoid checkmate.
 	 */
-	public boolean checkmate_advanced (Player player, Player opponent) {
+	public boolean Stalemate (Player player, Player opponent) {
 		Iterator<Piece> cur_iter = player.piece_own.iterator();
 		//iteration every piece of players
 		while (cur_iter.hasNext()) {
@@ -612,25 +613,9 @@ public class Board {
 	}
 	public static void main(String [ ] args){
 		Board field = new Board();
-		field.move(field.one.piece_own.get(10),field.grid_array[2][2].location);
 		field.print_board();
 		field.print_next_prob(field.one);
-		
-		Board field_2 = new Board();
-		int count =0;
-		for (int i =0; i<16; i++) {
-			if (count == 4) {
-				continue;
-			}
-			count++;
-			Piece betray_i = field_2.one.piece_own.get(0);
-			field_2.one.piece_own.remove(betray_i);
-			betray_i.player=1;
-			field_2.two.piece_own.add(betray_i);
-			
-		}
-		field_2.piece_next_prob();
-		boolean valid_check = field_2.checkmate_advanced(field_2.one, field_2.two);
+
 	}
 }
 
