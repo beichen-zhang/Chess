@@ -23,7 +23,7 @@ public class Bishop extends Piece{
 		int next_step_row= pos_row+1;
 		//down-right
 		while (board.checkGrid(next_step_row,next_step_col,role)==0) {
-			Grid available_grid = board.grid_array[next_step_row][next_step_col];
+			Grid available_grid = board.getGrid(next_step_row, next_step_col);
 			ret_val.add(available_grid.location);
 			next_step_col+=1;
 			next_step_row+=1;
@@ -33,7 +33,7 @@ public class Bishop extends Piece{
 		next_step_col= pos_col-1;
 		next_step_row= pos_row-1;
 		while (board.checkGrid(next_step_row,next_step_col,role)==0) {
-			Grid available_grid = board.grid_array[next_step_row][next_step_col];
+			Grid available_grid = board.getGrid(next_step_row, next_step_col);
 			ret_val.add(available_grid.location);
 			next_step_col-=1;
 			next_step_row-=1;
@@ -44,7 +44,7 @@ public class Bishop extends Piece{
 		next_step_col= pos_col+1;
 		next_step_row= pos_row-1;
 		while (board.checkGrid(next_step_row,next_step_col,role)==0) {
-			Grid available_grid = board.grid_array[next_step_row][next_step_col];
+			Grid available_grid = board.getGrid(next_step_row, next_step_col);
 			ret_val.add(available_grid.location);
 			next_step_col+=1;
 			next_step_row-=1;
@@ -55,7 +55,7 @@ public class Bishop extends Piece{
 		next_step_col= pos_col-1;
 		next_step_row= pos_row+1;
 		while (board.checkGrid(next_step_row,next_step_col,role)==0) {
-			Grid available_grid = board.grid_array[next_step_row][next_step_col];
+			Grid available_grid = board.getGrid(next_step_row, next_step_col);
 			ret_val.add(available_grid.location);
 			next_step_col-=1;
 			next_step_row+=1;

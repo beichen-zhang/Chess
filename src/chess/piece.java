@@ -30,15 +30,15 @@ public class Piece {
 	}
 	public void nextMove(Board board) {
 		
-	}
+	} 
 	
 	public boolean move(Board board, Location destination ) {
 		if(!destination.containIn(next_step)) { 
 			//if destination is not in piece's next step options
 			return false;
 		}
-		Grid des = board.grid_array[destination.row][destination.col];
-		Grid cur_grid= board.grid_array[this.location.row][this.location.col];
+		Grid des = board.getGrid(destination.row,destination.col );
+		Grid cur_grid= board.getGrid(this.location.row,this.location.col );
 		if(board.checkGrid(destination.row,destination.col,this.player)==0) {
 			//if destination is an empty grid
 			Piece temp = cur_grid.p;

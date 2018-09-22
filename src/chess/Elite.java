@@ -3,14 +3,14 @@ package chess;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pawn extends Piece{
-	public Pawn() {
+public class Elite extends Piece{
+	public Elite() {
 		super();
 	}
-	public Pawn(int person, int x, int y) {
-		super("Pawn",person,x,y);
+	public Elite(int person, int x, int y) {
+		super("Elite",person,x,y);
 	}
-	public Pawn(Pawn that) {
+	public Elite(Pawn that) {
 		super(that);
 	}
 	
@@ -23,7 +23,7 @@ public class Pawn extends Piece{
 		if (role==1) {
 			
 			//situation that piece is owned by player two.
-			if(board.checkGrid(pos_row-1,pos_col,1)==0 ) {
+			if(board.checkGrid(pos_row-1,pos_col,1)==0 || board.checkGrid(pos_row-1,pos_col,1)==2) {
 				Grid available_grid = board.getGrid(pos_row-1, pos_col);
 				ret_val.add(available_grid.location);
 			}
@@ -42,7 +42,7 @@ public class Pawn extends Piece{
 		}
 		if (role==0) {
 			//situation that piece is owned by player one.
-			if(board.checkGrid(pos_row+1,pos_col,0)==0 ) {
+			if(board.checkGrid(pos_row+1,pos_col,0)==0 || board.checkGrid(pos_row+1,pos_col,0)==2) {
 				Grid available_grid = board.getGrid(pos_row+1, pos_col);
 				ret_val.add(available_grid.location);
 			}

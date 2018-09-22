@@ -3,13 +3,15 @@ package chess;
 import java.util.*; 
 
 public class Board {
-	public Grid [][] grid_array;
-	Player one;
-	Player two;
+	private Grid [][] grid_array;
+	private boolean custom = false;
+	public Player one;
+	public Player two;
 	/*
 	 * Initialization of the board object
 	 */
 	public Board () {
+		
 		this.one= new Player();
 		this.two= new Player();
 		this.grid_array= new Grid[8][8];
@@ -42,6 +44,26 @@ public class Board {
 				}
 			}
 		}
+		this.pieceNextProb ();
+	}
+	
+	public Grid getGrid(int x, int y) {
+		return this.grid_array[x][y];
+	}
+	
+	/*
+	 * Change from traditional board to custom board
+	 */
+	public void customBoard() {
+		this.custom = true;
+		this.grid_array[1][0].p = new Elite(0,1,0);
+		this.one.pieceOwn.set(8, this.grid_array[1][0].p);
+		this.grid_array[1][7].p = new Elite(0,1,7);
+		this.one.pieceOwn.set(15, this.grid_array[1][7].p);
+		this.grid_array[6][0].p = new Elite(1,6,0);
+		this.two.pieceOwn.set(0, this.grid_array[6][0].p);
+		this.grid_array[6][7].p = new Elite(1,6,7);
+		this.two.pieceOwn.set(7, this.grid_array[6][7].p);
 		this.pieceNextProb ();
 	}
 	
@@ -287,8 +309,12 @@ public class Board {
 	}
 	*/
 	public static void main(String [ ] args){
-	
+		Board field = new Board();
+		field.customBoard();
+		field.getGrid(1, 0).p.move(field, new Location(3,0));
+		field.printBoard();
 		
-	}
+		
+	} 
 }
 

@@ -22,46 +22,46 @@ public class Knight extends Piece{
 		//down right move
 		if ((board.checkGrid (pos_row+2,pos_col+1,role)==0)|| 
 		(board.checkGrid (pos_row+2,pos_col+1,role)==2)) {
-			Grid available_grid = board.grid_array[pos_row+2][pos_col+1];
+			Grid available_grid = board.getGrid(pos_row+2, pos_col+1);
 			ret_val.add(available_grid.location);
 		}
 		if ((board.checkGrid (pos_row+1,pos_col+2,role)==0)|| 
 		(board.checkGrid (pos_row+1,pos_col+2,role)==2)) {
-			Grid available_grid = board.grid_array[pos_row+1][pos_col+2];
+			Grid available_grid = board.getGrid(pos_row+1, pos_col+2);
 			ret_val.add(available_grid.location);
 		}
 				
-	//up left move
+	//up left move 
 		if ((board.checkGrid (pos_row-2,pos_col-1,role)==0)|| 
 		(board.checkGrid (pos_row-2,pos_col-1,role)==2)) {
-			Grid available_grid = board.grid_array[pos_row-2][pos_col-1];
+			Grid available_grid = board.getGrid(pos_row-2, pos_col-1);
 			ret_val.add(available_grid.location);
 		}
 		if ((board.checkGrid (pos_row-1,pos_col-2,role)==0)|| 
 		(board.checkGrid (pos_row-1,pos_col-2,role)==2)) {
-			Grid available_grid = board.grid_array[pos_row-1][pos_col-2];
+			Grid available_grid = board.getGrid(pos_row-1, pos_col-2);
 			ret_val.add(available_grid.location);
 		}
 	//down left move
 		if ((board.checkGrid (pos_row+1,pos_col-2,role)==0)|| 
 		(board.checkGrid (pos_row+1,pos_col-2,role)==2)) {
-			Grid available_grid = board.grid_array[pos_row+1][pos_col-2];
+			Grid available_grid = board.getGrid(pos_row+1, pos_col-2);
 			ret_val.add(available_grid.location);
 		}
 		if ((board.checkGrid (pos_row+2,pos_col-1,role)==0)|| 
 		(board.checkGrid (pos_row+2,pos_col-1,role)==2)) {
-			Grid available_grid = board.grid_array[pos_row+2][pos_col-1];
+			Grid available_grid = board.getGrid(pos_row+2, pos_col-1);
 			ret_val.add(available_grid.location);
 		}
 	//up right move
 		if ((board.checkGrid (pos_row-1,pos_col+2,role)==0)|| 
 		(board.checkGrid (pos_row-1,pos_col+2,role)==2)) {
-			Grid available_grid = board.grid_array[pos_row-1][pos_col+2];
+			Grid available_grid = board.getGrid(pos_row-1, pos_col+2);
 			ret_val.add(available_grid.location);
 		}
 		if ((board.checkGrid (pos_row-2,pos_col+1,role)==0)|| 
 		(board.checkGrid (pos_row-2,pos_col+1,role)==2)) {
-			Grid available_grid = board.grid_array[pos_row-2][pos_col+1];
+			Grid available_grid = board.getGrid(pos_row-2, pos_col+1);
 			ret_val.add(available_grid.location);
 		}	
 		this.next_step = ret_val;

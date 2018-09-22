@@ -16,17 +16,49 @@ public class ChessTest {
 		// test Init_Bottom_Line()
 		String [] piece_name= {"Rook","Knight","Bishop","Queen","King","Bishop","Knight","Rook"};
 		for (int col =0; col<8; col++) {
-			assertEquals(field.grid_array[0][col].grid_check(),piece_name[col]);
+			assertEquals(field.getGrid(0, col).grid_check(),piece_name[col]);
 		}
-		assertEquals(field.grid_array[4][4].grid_check(),"Void");
+		assertEquals(field.getGrid(4, 4).grid_check(),"Void");
 		for (int col =0; col<8; col++) {
-			assertEquals(field.grid_array[7][col].grid_check(),piece_name[col]);
+			assertEquals(field.getGrid(7, col).grid_check(),piece_name[col]);
 		}
 		//test other piece
-		assertEquals(field.grid_array[1][1].grid_check(),"Pawn");
-		assertEquals(field.grid_array[2][1].grid_check(),"Void");
+		assertEquals(field.getGrid(1, 1).grid_check(),"Pawn");
+		assertEquals(field.getGrid(2, 1).grid_check(),"Void");
 	}
 	
+@Test
+	
+	public void customBoardTest() throws Exception {
+        Board field = new Board();
+        field.customBoard();
+        //test field.player
+		assertEquals(field.one.pieceOwn.size(),16);
+		assertEquals(field.two.pieceOwn.size(),16);
+		assertEquals(field.one.pieceOwn.get(1).player,0);
+		assertEquals(field.two.pieceOwn.get(1).player,1);
+		// test Init_Bottom_Line()
+		String [] piece_name= {"Rook","Knight","Bishop","Queen","King","Bishop","Knight","Rook"};
+		for (int col =0; col<8; col++) {
+			assertEquals(field.getGrid(0, col).grid_check(),piece_name[col]);
+		}
+		assertEquals(field.getGrid(4, 4).grid_check(),"Void");
+		for (int col =0; col<8; col++) {
+			assertEquals(field.getGrid(7, col).grid_check(),piece_name[col]);
+		}
+		//test other piece
+		assertEquals(field.getGrid(1, 0).grid_check(),"Elite");
+		assertEquals(field.getGrid(1, 7).grid_check(),"Elite");
+		assertEquals(field.getGrid(6, 0).grid_check(),"Elite");
+		assertEquals(field.getGrid(6, 7).grid_check(),"Elite");
+		
+		field.getGrid(1, 0).p.move(field, new Location(3,0));
+		field.getGrid(6, 0).p.move(field, new Location(4,0));
+		assertEquals(field.getGrid(3, 0).p.next_step.get(0).col,0);
+		assertEquals(field.getGrid(3, 0).p.next_step.get(0).row,4);
+		assertEquals(field.getGrid(4, 0).p.next_step.get(0).col,0);
+		assertEquals(field.getGrid(4, 0).p.next_step.get(0).row,3);
+	}
 	
 	@Test
 	public void moveTest() throws Exception{
@@ -35,7 +67,7 @@ public class ChessTest {
 		assertEquals(valid,true);
 		assertEquals(field.one.pieceOwn.get(8).location.col,0);
 		assertEquals(field.one.pieceOwn.get(8).location.row,2);
-		assertEquals(field.grid_array[1][0].grid_check(),"Void");
+		assertEquals(field.getGrid(1, 0).grid_check(),"Void");
 		//illegal move
 		boolean valid_2 = field.one.pieceOwn.get(9).move(field, new Location(4,0));
 		assertEquals(valid_2,false);
@@ -207,8 +239,8 @@ public class ChessTest {
 		Board field = new Board();
 		field.one.pieceOwn.get(11).move(field, new Location(2,3));
 		assertEquals(field.one.pieceOwn.get(4).next_step.size(),1);
-		assertEquals(field.one.pieceOwn.get(4).next_step.get(0).col,1);
-		assertEquals(field.one.pieceOwn.get(4).next_step.get(0).row,3);
+		assertEquals(field.one.pieceOwn.get(4).next_step.get(0).col,3);
+		assertEquals(field.one.pieceOwn.get(4).next_step.get(0).row,1);
 	}
 	
 	@Test
